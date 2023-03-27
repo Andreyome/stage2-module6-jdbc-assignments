@@ -34,8 +34,8 @@ public class SimpleJDBCRepository {
         try(Connection con =dataSource.getConnection();
             PreparedStatement prepState = con.prepareStatement(createUserSQL,PreparedStatement.RETURN_GENERATED_KEYS)){
             prepState.setString(1,user.getFirstName());
-            prepState.setString(1,user.getLastName());
-            prepState.setInt(1,user.getAge());
+            prepState.setString(2,user.getLastName());
+            prepState.setInt(3,user.getAge());
             prepState.execute();
 
             ResultSet rs = prepState.getGeneratedKeys();
@@ -56,8 +56,9 @@ public class SimpleJDBCRepository {
             ps = connection.prepareStatement(findUserByIdSQL);
             ps.setLong(1,userId);
             ResultSet rs = ps.executeQuery();
-            rs.next();
-            user = new User (rs.getLong(1),rs.getString(2),rs.getString(3),rs.getInt(4));
+            if(rs.next()) {
+                user = new User(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+            }
         }
         catch(SQLException e){
             //throw new RuntimeException();
