@@ -34,8 +34,8 @@ public class CustomDataSource implements DataSource {
         if(instance == null){
             try{
                 Properties properties = new Properties();
-                //properties.load(CustomDataSource.class.getClassLoader().getResourceAsStream("app.properties"));
-                properties.load(new FileReader("app.properties"));
+                properties.load(CustomDataSource.class.getClassLoader().getResourceAsStream("app.properties"));
+                //properties.load(new FileReader("app.properties"));
                 instance= new CustomDataSource(
                         properties.getProperty("postgres.driver"),
                         properties.getProperty("postgres.url"),
